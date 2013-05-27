@@ -22,6 +22,8 @@ ar = (func) ->
     func.apply this, args
 
 if module?
+  # Loaded by require.js
   module.exports = ar
 else
+  # Loaded the old fashioned way in the browser
   window.ar = ar

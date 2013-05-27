@@ -1,6 +1,6 @@
 {
   "name": "arity",
-  "description": "Enforce Arity on JavaScript Functions",
+  "description": "Makes sure that JavaScript functions are called with the expected number of parameters.",
   "version": "1.0.0",
   "author": "Jon Abrams <jon@jonabrams.com>",
   "devDependencies": {
@@ -8,6 +8,7 @@
     "mocha": "*",
     "should": "*"
   },
+  "browserDependencies": [],
   "keywords": [
     "arity"
   ],
@@ -15,5 +16,5 @@
   "main": "arity",
   "scripts": {
     "test": "make test"
-  },
+  }
 }
