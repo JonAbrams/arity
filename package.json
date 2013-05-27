@@ -1,0 +1,19 @@
+{
+  "name": "arity",
+  "description": "Enforce Arity on JavaScript Functions",
+  "version": "1.0.0",
+  "author": "Jon Abrams <jon@jonabrams.com>",
+  "devDependencies": {
+    "coffee-script": "*",
+    "mocha": "*",
+    "should": "*"
+  },
+  "keywords": [
+    "arity"
+  ],
+  "repository": "git://github.com/JonAbrams/arity",
+  "main": "arity",
+  "scripts": {
+    "test": "make test"
+  },
+}
