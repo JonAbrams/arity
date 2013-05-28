@@ -29,7 +29,7 @@ ar = (topArgs...) ->
 
   if max? and typeof max isnt "number" or max < 0 or max % 1 != 0
     throw new Error "Invalid maximum value set. " +
-      "Expected positive integer, got #{min}."
+      "Expected positive integer, got #{max}."
 
   numParams = func.length
   [ funcName, paramNames... ] = parseFunc(func)
