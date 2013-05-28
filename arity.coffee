@@ -31,7 +31,6 @@ ar = (topArgs...) ->
     throw new Error "Invalid maximum value set. " +
       "Expected positive integer, got #{max}."
 
-  numParams = func.length
   [ funcName, paramNames... ] = parseFunc(func)
 
   (args...) =>
