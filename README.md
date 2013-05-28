@@ -31,8 +31,8 @@ It's as simple as wrapping your function with `ar`:
 It's even easier in CoffeeScript (isn't everything?):
 
     sum = ar (a, b) -> a + b
-    sum(1,2) // returns 3
-    sum(1,2,3) // throws "Wrong number of parameters. Excpected 2, got 3. Params: a, b."
+    sum(1,2) # returns 3
+    sum(1,2,3) # throws "Wrong number of parameters. Excpected 2, got 3. Params: a, b."
 
 ### Variable Number of Parameters
 
