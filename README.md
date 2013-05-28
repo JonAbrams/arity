@@ -1,5 +1,8 @@
-# Arity
+# Arity 
+
 Makes sure that JavaScript functions are called with the expected number of parameters.
+
+[![Build Status](https://travis-ci.org/JonAbrams/arity.png)](https://travis-ci.org/JonAbrams/arity)
 
 ## Background
 
