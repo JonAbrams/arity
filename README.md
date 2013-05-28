@@ -48,7 +48,7 @@ To specify a range:
 
     sum = ar 2, 4, (nums...) -> nums.reduce (t,s) -> t + s
     sum(1,5) # Returns 6
-    sum(2) # Throws "Wrong number of parameters. Excpected 2 or more, got 1."
+    sum(2) # Throws "Wrong number of parameters. Excpected 2..4, got 1."
     sum(2,5,2,7,9) # Throws "Wrong number of parameters. Excpected 2..4, got 5."
 
 ## Installing for Node.js
