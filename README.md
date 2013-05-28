@@ -31,6 +31,23 @@ It's even easier in CoffeeScript (isn't everything?):
     sum(1,2) // returns 3
     sum(1,2,3) // throws "Wrong number of parameters. Excpected 2, got 3. Params: a, b."
 
+### Variable Number of Parameters
+
+If you want your function to accept a range of number of parameters (e.g. it can take 2 to 4 parameters), the pass in a min or max value as the 1st and/or 2nd value.
+
+To specify just a minimum number (note that this is in CoffeeScript, it was too long to write in JS):
+
+    sum = ar 2, (nums...) -> nums.reduce (t,s) -> t + s
+    sum(1,5) # Returns 6
+    sum(2) # Throws "Wrong number of parameters. Excpected 2 or more, got 1."
+
+To specify a range:
+
+    sum = ar 2, 4, (nums...) -> nums.reduce (t,s) -> t + s
+    sum(1,5) # Returns 6
+    sum(2) # Throws "Wrong number of parameters. Excpected 2 or more, got 1."
+    sum(2,5,2,7,9) # Throws "Wrong number of parameters. Excpected 2..4, got 5."
+
 ## Installing for Node.js
 
 From the command-line:

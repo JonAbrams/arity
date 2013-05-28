@@ -1,7 +1,7 @@
 {
   "name": "arity",
   "description": "Makes sure that JavaScript functions are called with the expected number of parameters.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Jon Abrams <jon@jonabrams.com>",
   "devDependencies": {
     "coffee-script": "*",
