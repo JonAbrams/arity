@@ -63,7 +63,7 @@ describe 'ar', ->
     it 'throws if the max value isn\'t a number', ->
       (->
         ar 1, "oops", (a,b) -> a + b
-      ).should.throw("Invalid maximum value. Expected positive integer, but got 1.")
+      ).should.throw("Invalid maximum value. Expected positive integer, but got oops.")
 
     it 'throws if the max value isn\'t a positive number', ->
       (->
@@ -73,7 +73,7 @@ describe 'ar', ->
     it 'throws if the max value isn\'t an integer', ->
       (->
         ar 1, 3.2, (a,b) -> a + b
-      ).should.throw("Invalid maximum value. Expected positive integer, but got 1.")
+      ).should.throw("Invalid maximum value. Expected positive integer, but got 3.2.")
 
     it 'throws if the max value is less than the min value', ->
       (->

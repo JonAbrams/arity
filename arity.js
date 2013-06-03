@@ -90,7 +90,7 @@
       throw new Error("Invalid minimum value. " + ("Expected positive integer, but got " + min + "."));
     }
     if ((max != null) && typeof max !== "number" || max < 0 || max % 1 !== 0) {
-      throw new Error("Invalid maximum value set. " + ("Expected positive integer, got " + max + "."));
+      throw new Error("Invalid maximum value. " + ("Expected positive integer, but got " + max + "."));
     }
     _ref = parseFunc(func), funcName = _ref[0], paramNames = 2 <= _ref.length ? __slice.call(_ref, 1) : [];
     return function() {
@@ -119,7 +119,7 @@
             case min !== topArgs[0]:
               return "" + min + " or more";
             default:
-              return numParams;
+              return func.length;
           }
         })();
         throw new Error(("Wrong number of parameters" + funcNameStr + ". ") + ("Excpected " + expected + ", but got " + args.length + "." + paramNameStr));

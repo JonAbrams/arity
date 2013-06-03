@@ -103,7 +103,7 @@
           return ar(1, "oops", function(a, b) {
             return a + b;
           });
-        }).should["throw"]("Invalid maximum value. Expected positive integer, but got 1.");
+        }).should["throw"]("Invalid maximum value. Expected positive integer, but got oops.");
       });
       it('throws if the max value isn\'t a positive number', function() {
         return (function() {
@@ -117,7 +117,7 @@
           return ar(1, 3.2, function(a, b) {
             return a + b;
           });
-        }).should["throw"]("Invalid maximum value. Expected positive integer, but got 1.");
+        }).should["throw"]("Invalid maximum value. Expected positive integer, but got 3.2.");
       });
       it('throws if the max value is less than the min value', function() {
         return (function() {
