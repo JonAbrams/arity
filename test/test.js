@@ -8,14 +8,14 @@
   ar = require("../arity");
 
   describe('ar', function() {
-    describe("when just a function is provided", function() {
+    describe("just a function is provided", function() {
       it('throws when there are too many parameters', function() {
         return (function() {
           var func;
 
           func = ar(function() {});
           return func("param1");
-        }).should["throw"]();
+        }).should["throw"]("Wrong number of parameters. Excpected 0, but got 1.");
       });
       it('throw when there are too few parameters', function() {
         return (function() {
@@ -23,7 +23,7 @@
 
           func = ar(function(a, b) {});
           return func();
-        }).should["throw"]();
+        }).should["throw"]("Wrong number of parameters. Excpected 2, but got 0. Params: a, b.");
       });
       it('mentions the parameters when throwing an error', function() {
         return (function() {
@@ -31,7 +31,7 @@
 
           func = ar(function(a, b) {});
           return func();
-        }).should["throw"](/.*a, b.*/);
+        }).should["throw"]("Wrong number of parameters. Excpected 2, but got 0. Params: a, b.");
       });
       it('mentions the function\'s name when throwing an error', function() {
         return (function() {
@@ -39,12 +39,12 @@
 
           func = ar(function myFunc (a, b) { });
           return func();
-        }).should["throw"](/.*myFunc.*/);
+        }).should["throw"]("Wrong number of parameters when calling 'myFunc'. Excpected 2, but got 0. Params: a, b.");
       });
       it('throws when a function isn\'t passed in', function() {
         return (function() {
           return ar(1);
-        }).should["throw"]();
+        }).should["throw"]("Invalid parameter. Function required.");
       });
       return it('runs the function when the right number of parameters are passed in', function() {
         var obj;
@@ -58,26 +58,19 @@
       });
     });
     describe("Minimum value provided", function() {
-      it('throws if the min value isn\'t a number', function() {
-        return (function() {
-          return ar("oops", function(a, b) {
-            return a + b;
-          });
-        }).should["throw"]();
-      });
       it('throws if the min value isn\'t a positive number', function() {
         return (function() {
           return ar(-1, function(a, b) {
             return a + b;
           });
-        }).should["throw"]();
+        }).should["throw"]("Invalid minimum value. Expected positive integer, but got -1.");
       });
       it('throws if the min value isn\'t an integer', function() {
         return (function() {
           return ar(1.5, function(a, b) {
             return a + b;
           });
-        }).should["throw"]();
+        }).should["throw"]("Invalid minimum value. Expected positive integer, but got 1.5.");
       });
       it('throws if fewer than the minimum number of parameters are passed', function() {
         return (function() {
@@ -90,7 +83,7 @@
             return args.length;
           });
           return func(1, 2);
-        }).should["throw"]();
+        }).should["throw"]("Wrong number of parameters. Excpected 3 or more, but got 2.");
       });
       return it('runs the function when the min number of parameters are passed in', function() {
         var func;
@@ -104,34 +97,34 @@
         return func(1, 2, 3, 4).should.eql(4);
       });
     });
-    return describe("Maximum value provided", function() {
+    describe("Maximum and minimum value provided", function() {
       it('throws if the max value isn\'t a number', function() {
         return (function() {
           return ar(1, "oops", function(a, b) {
             return a + b;
           });
-        }).should["throw"]();
+        }).should["throw"]("Invalid maximum value. Expected positive integer, but got 1.");
       });
       it('throws if the max value isn\'t a positive number', function() {
         return (function() {
           return ar(1, -3, function(a, b) {
             return a + b;
           });
-        }).should["throw"]();
+        }).should["throw"]("The max parameter must be greater than or equal to the min.");
       });
       it('throws if the max value isn\'t an integer', function() {
         return (function() {
           return ar(1, 3.2, function(a, b) {
             return a + b;
           });
-        }).should["throw"]();
+        }).should["throw"]("Invalid maximum value. Expected positive integer, but got 1.");
       });
       it('throws if the max value is less than the min value', function() {
         return (function() {
           return ar(5, 3, function(a, b) {
             return a + b;
           });
-        }).should["throw"]();
+        }).should["throw"]("The max parameter must be greater than or equal to the min.");
       });
       it('throws if more than the maximum number of parameters are passed', function() {
         return (function() {
@@ -145,7 +138,7 @@
           });
           func();
           return func(1, 2, 3, 4);
-        }).should["throw"]();
+        }).should["throw"]("Wrong number of parameters. Excpected 0..3, but got 4.");
       });
       return it('runs the function when the correct number of parameters are passed in', function() {
         var func;
@@ -157,6 +150,58 @@
           return args.length;
         });
         return func(1, 2, 3, 4).should.eql(4);
+      });
+    });
+    return describe("Type Mode", function() {
+      it('throws if a value is passed not matching the specified type', function() {
+        return (function() {
+          var func;
+
+          func = ar("number", "number", function(a, b) {
+            return a + b;
+          });
+          return func(1, '2');
+        }).should["throw"]("Invalid parameter. Expected parameter 1 to be of type 'Number' but got 'String'.");
+      });
+      it('should succeed if the right value types are passed in', function() {
+        var func;
+
+        func = ar("number", "number", function(a, b) {
+          return a + b;
+        });
+        return func(1, 2).should.eql(3);
+      });
+      it('works with user-defined classes', function() {
+        var Lannister, lannisterMotto, tyrion;
+
+        Lannister = (function() {
+          function Lannister() {}
+
+          return Lannister;
+
+        })();
+        tyrion = new Lannister();
+        lannisterMotto = ar("Lannister", function(person) {
+          return "A Lannister always pays his debts.";
+        });
+        return lannisterMotto(tyrion).should.eql("A Lannister always pays his debts.");
+      });
+      return it('throws when wrong user-defined class is used', function() {
+        var Stark, aria, lannisterMotto;
+
+        Stark = (function() {
+          function Stark() {}
+
+          return Stark;
+
+        })();
+        aria = new Stark();
+        lannisterMotto = ar("Lannister", function(person) {
+          return "A Lannister always pays his debts.";
+        });
+        return (function() {
+          return lannisterMotto(aria);
+        }).should["throw"]("Invalid parameter. Expected parameter 0 to be of type 'Lannister' but got 'Stark'.");
       });
     });
   });

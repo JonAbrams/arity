@@ -26,13 +26,15 @@ It's as simple as wrapping your function with `ar`:
       return a + b;
     });
     sum(1,2); // returns 3
-    sum(2); // throws "Wrong number of parameters. Excpected 2, got 1. Params: a, b."
+    sum(2); // throws "Wrong number of parameters. Excpected 2, got 1. Params: a, b."    
 
 It's even easier in CoffeeScript (isn't everything?):
 
     sum = ar (a, b) -> a + b
     sum(1,2) # returns 3
     sum(1,2,3) # throws "Wrong number of parameters. Excpected 2, got 3. Params: a, b."
+
+By default, `ar` will detect the number of parameters your function is expecting an enforce it by throwing an error when it is called with a different number of parameters.
 
 ### Variable Number of Parameters
 
@@ -50,6 +52,48 @@ To specify a range:
     sum(1,5) # Returns 6
     sum(2) # Throws "Wrong number of parameters. Excpected 2..4, got 1."
     sum(2,5,2,7,9) # Throws "Wrong number of parameters. Excpected 2..4, got 5."
+
+### Specifying Parameter Types
+
+If you want, you can easily enforce the type of variables that are passed into your function.
+
+Just pass in the types as strings into `ar` before passing in your function:
+
+    sum = ar "number", "number", (a, b) -> a + b
+    sum(1, '2') # Throws "Invalid parameter. Expected parameter 1 to be of type 'Number' but got 'String'."
+
+In addition to supporting native JavaScript types like "number", "string", "boolean", "function", and "object", it also supports user defined types/classes).
+
+Example in JavaScript:
+
+    function Lannister(name) {
+      this.name = name;
+    }
+    
+    function Stark(name) {
+      this.name = name;
+    }
+    
+    var lannisterMotto = ar("Lannister", function (person) {
+      return person.name + " always pays his debts.";
+    });
+    
+    lannisterMotto( new Lannister("Tyrion") ); // Returns "Tyrion always pays his debts."
+    lannisterMotto( new Stark("Ned") ); // Throws "Invalid parameter. Expected parameter 0 to be of type 'Lannister' but got 'Stark'."
+
+Example in CoffeeScript:
+
+    class House
+      constructor: (@name) ->
+
+    class Lannister extends House
+	class Stark extends House
+	
+	lannisterMotto = ar "Lannister", (person) ->
+	  "#{person.name} always pays his debts."
+	  
+    lannisterMotto( new Lannister("Tyrion") ); # Returns "Tyrion always pays his debts."
+    lannisterMotto( new Stark("Ned") ); # "Throws Invalid parameter. Expected parameter 0 to be of type 'Lannister' but got 'Stark'."
 
 ## Installing for Node.js
 
