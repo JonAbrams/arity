@@ -1,6 +1,6 @@
 # Arity
 
-Makes sure that JavaScript functions are called with the expected number of parameters.
+Makes sure that JavaScript functions are called with the expected number and/or types of parameters.
 
 [![Build Status](https://travis-ci.org/JonAbrams/arity.png?branch=master)](https://travis-ci.org/JonAbrams/arity)
 
