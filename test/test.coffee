@@ -118,3 +118,19 @@ describe 'ar', ->
         lannisterMotto aria
       ).should.throw("Invalid parameter. Expected parameter 0 to be of type 'Lannister' but got 'Stark'.")
 
+  describe "Object Testing", ->
+    it 'throws if an object doesnt\'t match up', ->
+      (->
+        magicNumSchema = i: "number", r: "number"
+        iSum = ar magicNumSchema, magicNumSchema, (a,b) -> i: a.i + b.i, r: a.r + b.r
+        magic1 = i: 5, r: 3
+        magic2 = i: 2, r: '7'
+        iSum(magic1, magic2)
+      ).should.throw "Invalid parameter. Expected parameter 1 to be of type 'Number' but got 'String'."
+
+    it 'succeeds when the object does match up', ->
+      magicNumSchema = i: "number", r: "number"
+      iSum = ar magicNumSchema, magicNumSchema, (a,b) -> i: a.i + b.i, r: a.r + b.r
+      magic1 = i: 5, r: 3, comment: "This key/value shouldn't matter"
+      magic2 = i: 2, r: 7
+      iSum(magic1, magic2).should.eql { i: 7, r: 10 }

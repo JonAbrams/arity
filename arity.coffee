@@ -18,7 +18,21 @@ nativeTypes = [
   "object"
 ]
 
-nativeClasses = titleize(type) for type in nativeTypes
+nativeClasses = (titleize(type) for type in nativeTypes)
+
+checkClass = (template, obj, argIndex) ->
+  templateClass = getClass template
+  paramClass = getClass obj
+  if templateClass is "Object" and paramClass is "Object"
+    for key of template
+      unless key of obj
+        throw new Error "Invalid parameter. Expected parameter #{argIndex} to " +
+          "match #{JSON.stringify(template)}."
+      checkClass template[key], obj[key], argIndex
+  else if paramClass isnt template
+    unless paramClass in nativeClasses and paramClass is titleize(template)
+      throw new Error "Invalid parameter. Expected parameter #{argIndex} to " +
+        "be of type '#{titleize(template)}' but got '#{paramClass}'."
 
 ar = (topArgs...) ->
   min = max = null
@@ -29,14 +43,16 @@ ar = (topArgs...) ->
   if typeof func isnt "function"
     throw new Error "Invalid parameter. Function required."
 
+  # This decides what type of parameter checking will be enforced. It all depends
+  # on the type of the first parameter
   switch typeof topArgs[0]
+    # If the first parameter is a function, then ar will automatically figure out
+    # and enforce the number of parameters that the function was defined with.
     when "function" then null
-    when "string"
+    when "string", "object"
       classes = topArgs[0...-1]
-      for type in classes when typeof type isnt "string"
-        throw new Error "Invalid parameter. When first parameter is a string, " +
-          "all subsequent parameters must also be a string, with the " +
-          "exception of the final parameter, which must be a function."
+      for type, index in classes when typeof type isnt "string" and getClass(type) isnt "Object"
+        throw new Error "Parameter #{index} is an invalid type."
 
       # if a lowercase primitive type is passed in, convert it to a titleized
       # class version
@@ -68,6 +84,8 @@ ar = (topArgs...) ->
 
   [ funcName, paramNames... ] = parseFunc(func)
 
+  # Return a new function that enforces the number and/or types of parameters passed
+  # in.
   (args...) =>
     if min?
       max ?= args.length
@@ -92,11 +110,12 @@ ar = (topArgs...) ->
 
     # Check that the parameters are of the expected type
     if classes?
-      for arg, index in args[0...classes.length]
-        paramClass = getClass arg
-        if paramClass isnt classes[index]
-          throw new Error "Invalid parameter. Expected parameter #{index} to " +
-            "be of type '#{classes[index]}' but got '#{paramClass}'."
+      if args.length isnt classes.length
+        throw Error "Wrong number of parameters. Expected #{classes.length} " +
+          "but got #{args.length}"
+      for arg, index in args
+        # Throws error if the argument doesn't match the specified template
+        checkClass classes[index], arg, index
     func.apply this, args
 
 if module?
