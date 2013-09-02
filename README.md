@@ -2,7 +2,7 @@
 
 Makes sure that JavaScript functions are called with the expected number of parameters.
 
-[![Build Status](https://travis-ci.org/JonAbrams/arity.png)](https://travis-ci.org/JonAbrams/arity)
+[![Build Status](https://travis-ci.org/JonAbrams/arity.png?branch=master)](https://travis-ci.org/JonAbrams/arity)
 
 ## Background
 
