@@ -126,7 +126,7 @@ describe 'ar', ->
         magic1 = i: 5, r: 3
         magic2 = i: 2, r: '7'
         iSum(magic1, magic2)
-      ).should.throw "Invalid parameter. Expected parameter 1 to be of type 'Number' but got 'String'."
+      ).should.throw 'Invalid parameter. Expected parameter 1 to match `{ "i": "number", "r": "number" }` but got `{ "i": 2, "r": "7" }`.'
 
     it 'succeeds when the object does match up', ->
       magicNumSchema = i: "number", r: "number"

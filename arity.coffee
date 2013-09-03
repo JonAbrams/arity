@@ -10,6 +10,8 @@ getClass = (arg) ->
 
 titleize = (str) -> str[0].toUpperCase() + str[1..]
 
+printable = (obj) -> JSON.stringify(obj).replace(/\{|:|,/g, "$& ").replace(/}/, " }")
+
 nativeTypes = [
   "number"
   "boolean"
@@ -21,18 +23,25 @@ nativeTypes = [
 nativeClasses = (titleize(type) for type in nativeTypes)
 
 checkClass = (template, obj, argIndex) ->
-  templateClass = getClass template
-  paramClass = getClass obj
-  if templateClass is "Object" and paramClass is "Object"
-    for key of template
-      unless key of obj
-        throw new Error "Invalid parameter. Expected parameter #{argIndex} to " +
-          "match #{JSON.stringify(template)}."
-      checkClass template[key], obj[key], argIndex
-  else if paramClass isnt template
-    unless paramClass in nativeClasses and paramClass is titleize(template)
-      throw new Error "Invalid parameter. Expected parameter #{argIndex} to " +
-        "be of type '#{titleize(template)}' but got '#{paramClass}'."
+  top_template = template
+  top_obj = obj
+  do checkClass_rec = (template, obj) ->
+    templateClass = getClass template
+    paramClass = getClass obj
+    if templateClass is "Object" and paramClass is "Object"
+      for key of template
+        unless key of obj
+          throw new Error "Invalid parameter. Expected parameter #{argIndex} to " +
+            "match #{JSON.stringify(template)}."
+        checkClass_rec template[key], obj[key], argIndex
+    else if paramClass isnt template
+      unless paramClass in nativeClasses and paramClass is titleize(template)
+        if getClass(top_template) is "Object"
+          throw new Error "Invalid parameter. Expected parameter 1 to match " +
+            "`#{ printable(top_template) }` but got `#{ printable(top_obj) }`."
+        else
+          throw new Error "Invalid parameter. Expected parameter #{argIndex} to " +
+            "be of type '#{titleize(template)}' but got '#{paramClass}'."
 
 ar = (topArgs...) ->
   min = max = null
