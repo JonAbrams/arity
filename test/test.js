@@ -186,7 +186,7 @@
         });
         return lannisterMotto(tyrion).should.eql("A Lannister always pays his debts.");
       });
-      return it('throws when wrong user-defined class is used', function() {
+      it('throws when wrong user-defined class is used', function() {
         var Stark, aria, lannisterMotto;
 
         Stark = (function() {
@@ -202,6 +202,25 @@
         return (function() {
           return lannisterMotto(aria);
         }).should["throw"]("Invalid parameter. Expected parameter 0 to be of type 'Lannister' but got 'Stark'.");
+      });
+      return it('allows anything if a wildcard is used', function() {
+        var person, safeInserter;
+
+        safeInserter = function(obj, key, value) {
+          if (!(key in obj)) {
+            return obj[key] = value;
+          }
+        };
+        safeInserter = ar("object", "string", "*", safeInserter);
+        person = {
+          name: "Jon"
+        };
+        safeInserter(person, "name", "Julie");
+        safeInserter(person, "age", 30);
+        return person.should.eql({
+          name: "Jon",
+          age: 30
+        });
       });
     });
     return describe("Object Testing", function() {

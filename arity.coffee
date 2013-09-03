@@ -34,7 +34,7 @@ checkClass = (template, obj, argIndex) ->
           throw new Error "Invalid parameter. Expected parameter #{argIndex} to " +
             "match #{JSON.stringify(template)}."
         checkClass_rec template[key], obj[key], argIndex
-    else if paramClass isnt template
+    else if paramClass isnt template and template isnt "*"
       unless paramClass in nativeClasses and paramClass is titleize(template)
         if getClass(top_template) is "Object"
           throw new Error "Invalid parameter. Expected parameter 1 to match " +

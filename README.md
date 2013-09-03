@@ -22,7 +22,9 @@ Depending on the situation, it might be preferred that an error is thrown when t
 
 ## Usage
 
-It's as simple as wrapping your function with `ar`:
+First, [install the library](https://github.com/JonAbrams/arity#installing-for-nodejs).
+
+Then, it's as simple as wrapping your function with `ar`:
 
 ```js
 var sum = ar(function (a, b) {
@@ -130,6 +132,21 @@ iSum(magic1, magic2) # Throws an exception since 'magic[r]' is of the wrong type
 magic1 = i: 5, r: 3, comment: "This will be ignored since it isn't in magicNumSchema"
 magic2 = i: 2, r: 7
 iSum(magic1, magic2) # Returns { i: 7, r: 10 }
+```
+
+### Wildcard
+
+If you want to specify the type that some parameters should be, but don't care about others, you can specify them by passing in `"*"`.
+
+```coffee
+# Assign key/value if it doesn't exist
+safeInserter = (obj, key, value) ->
+  obj[key] = value if key not of obj
+safeInserter = ar "object", "string", "*", safeInserter
+
+person = { name: "Jake" }
+safeInserter(person, "name", "Fran") # Does nothing
+safeInserter(person, "age", 30) # Inserts a new key and value
 ```
 
 ## Installing for Node.js

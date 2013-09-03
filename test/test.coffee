@@ -118,6 +118,17 @@ describe 'ar', ->
         lannisterMotto aria
       ).should.throw("Invalid parameter. Expected parameter 0 to be of type 'Lannister' but got 'Stark'.")
 
+    it 'allows anything if a wildcard is used', ->
+      # Assign key/value if it doesn't exist
+      safeInserter = (obj, key, value) ->
+        obj[key] = value if key not of obj
+      safeInserter = ar "object", "string", "*", safeInserter
+
+      person = { name: "Jon" }
+      safeInserter person, "name", "Julie"
+      safeInserter person, "age", 30
+      person.should.eql { name: "Jon", age: 30 }
+
   describe "Object Testing", ->
     it 'throws if an object doesnt\'t match up', ->
       (->
@@ -134,3 +145,4 @@ describe 'ar', ->
       magic1 = i: 5, r: 3, comment: "This key/value shouldn't matter"
       magic2 = i: 2, r: 7
       iSum(magic1, magic2).should.eql { i: 7, r: 10 }
+

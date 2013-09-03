@@ -58,7 +58,7 @@
           _results.push(checkClass_rec(template[key], obj[key], argIndex));
         }
         return _results;
-      } else if (paramClass !== template) {
+      } else if (paramClass !== template && template !== "*") {
         if (!(__indexOf.call(nativeClasses, paramClass) >= 0 && paramClass === titleize(template))) {
           if (getClass(top_template) === "Object") {
             throw new Error("Invalid parameter. Expected parameter 1 to match " + ("`" + (printable(top_template)) + "` but got `" + (printable(top_obj)) + "`."));
