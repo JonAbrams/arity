@@ -2,7 +2,7 @@
 
 Makes sure that JavaScript functions are called with the expected number and/or types of parameters.
 
-[![Build Status](https://travis-ci.org/JonAbrams/arity.png?branch=master)](https://travis-ci.org/JonAbrams/arity)
+[![Build Status](https://travis-ci.org/JonAbrams/arity.png?branch=master)](https://travis-ci.org/JonAbrams/arity) [![NPM version](https://badge.fury.io/js/arity.png)](http://badge.fury.io/js/arity)
 
 ## Background
 
