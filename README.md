@@ -6,7 +6,7 @@ Makes sure that JavaScript functions are called with the expected number and/or 
 
 ## Background
 
-Just like in any programming language JavaScript functions take parameters. Unlike many other programming languages, JavaScript does not require functions to be called with the defined number of parameters.
+Just like in any programming language JavaScript functions take parameters. Unlike many other programming languages, JavaScript does not require functions to be called with the defined number (or types) of parameters.
 
 For example:
 
@@ -19,6 +19,8 @@ sum(2); // returns NaN
 ```
 
 Depending on the situation, it might be preferred that an error is thrown when the wrong number of parameters are passed in.
+
+A common situation where you might want to enforce this is with a JavaScript library. You may want to make sure that your publically exposed functions are being called in the way you expect. _Arity_ can help users of your library catch errors earlier, and save you support headaches.
 
 ## Usage
 
