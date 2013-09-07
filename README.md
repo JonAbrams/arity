@@ -163,7 +163,11 @@ From your app:
 
 ## Installing for the browser
 
-Download `arity.js` and put it in your `js` folder with your project. Then include it like so:
+Download `arity.js` and put it in your `js` folder with your project.
+
+You can also install it using [bower](https://github.com/bower/bower): `bower install arity`
+
+Then include it in your page like so:
 
     <script src="js/arity.js"></script>
 
