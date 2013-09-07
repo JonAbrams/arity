@@ -15,7 +15,7 @@ function sum(a, b) {
   return a + b;
 }
 sum(1, 2); // returns 3
-sum(2); // returns NaN
+sum(2); // returns NaN, not too helpful eh?
 ```
 
 Depending on the situation, it might be preferred that an error is thrown when the wrong number of parameters are passed in.
